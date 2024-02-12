@@ -34,6 +34,7 @@ const getMovies = (req, res) => {
       res.json(movies);
     })
     .catch((err) => {
+      conso;
       console.error(err);
       res.sendStatus(500);
     });
