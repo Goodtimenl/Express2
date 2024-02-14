@@ -57,8 +57,35 @@ const postUser = (req, res) => {
     });
 };
 
+const updateUser = (req, res) => {
+  const id = parseInt(req.params.id);
+  if (isNaN(id)) {
+    // Si id n'est pas un nombre, renvoie une erreur 400 (Bad Request)
+    return res.status(400).send("Invalid user ID.");
+  }
+  const { firstname, lastname, email, city, language } = req.body;
+
+  database
+    .query(
+      "UPDATE users SET firstname = ?, lastname = ?, email = ?, city = ?, language = ? WHERE id = ?",
+      [firstname, lastname, email, city, language, id]
+    )
+    .then(([result]) => {
+      if (result.affectedRows === 0) {
+        res.sendStatus(404); // Si l'utilisateur n'est pas trouvé
+      } else {
+        res.status(204).json({}); // On renvoie les infos de l'utilisateur mis à jour
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500); // Oups, erreur serveur
+    });
+};
+
 module.exports = {
   getUsers,
   getUserById,
   postUser,
+  updateUser, // T'as vu, on l'a ajouté ici pour l'exporter ;)
 };
