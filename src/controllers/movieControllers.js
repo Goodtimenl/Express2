@@ -34,7 +34,6 @@ const getMovies = (req, res) => {
       res.json(movies);
     })
     .catch((err) => {
-      conso;
       console.error(err);
       res.sendStatus(500);
     });
@@ -60,6 +59,7 @@ const getMovieById = (req, res) => {
 
 const postMovie = (req, res) => {
   const { title, director, year, color, duration } = req.body;
+
   database
     .query(
       "INSERT INTO movies(title, director, year, color, duration) VALUES (?, ?, ?, ?, ?)",
@@ -87,14 +87,7 @@ const updateMovie = (req, res) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);
       } else {
-        res.status(200).json({
-          id,
-          firstname,
-          lastname,
-          email,
-          city,
-          language,
-        }); // On renvoie les infos de l'utilisateur mis à jour
+        res.sendStatus(204);
       }
     })
     .catch((err) => {

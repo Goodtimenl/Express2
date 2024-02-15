@@ -59,10 +59,6 @@ const postUser = (req, res) => {
 
 const updateUser = (req, res) => {
   const id = parseInt(req.params.id);
-  if (isNaN(id)) {
-    // Si id n'est pas un nombre, renvoie une erreur 400 (Bad Request)
-    return res.status(400).send("Invalid user ID.");
-  }
   const { firstname, lastname, email, city, language } = req.body;
 
   database
