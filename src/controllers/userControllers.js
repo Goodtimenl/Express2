@@ -79,9 +79,28 @@ const updateUser = (req, res) => {
     });
 };
 
+const deleteUser = (req, res) => {
+  const id = parseInt(req.params.id);
+
+  database
+    .query("DELETE FROM users WHERE id = ?", [id])
+    .then(([result]) => {
+      if (result.affectedRows === 0) {
+        res.sendStatus(404); // Aucun utilisateur trouvé avec cet ID
+      } else {
+        res.sendStatus(204); // Suppression réussie, aucun contenu à renvoyer
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500); // Erreur serveur
+    });
+};
+
 module.exports = {
   getUsers,
   getUserById,
   postUser,
-  updateUser, // T'as vu, on l'a ajouté ici pour l'exporter ;)
+  updateUser,
+  deleteUser, // T'as vu, on l'a ajouté ici pour l'exporter ;)
 };
